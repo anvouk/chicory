@@ -98,6 +98,21 @@ class Chicory:
                 from chicory.backend import RedisBackend
 
                 return RedisBackend(config=self.config.backend.redis)
+            case (
+                BackendType.POSTGRES
+                | BackendType.MYSQL
+                | BackendType.SQLITE
+                | BackendType.MSSQL
+            ):
+                from chicory.backend import DatabaseBackend, DatabaseBackendConfig
+
+                config_map: dict[BackendType, DatabaseBackendConfig] = {
+                    BackendType.POSTGRES: self.config.backend.postgres,
+                    BackendType.MYSQL: self.config.backend.mysql,
+                    BackendType.SQLITE: self.config.backend.sqlite,
+                    BackendType.MSSQL: self.config.backend.mssql,
+                }
+                return DatabaseBackend(config=config_map[backend_type])
             case _:
                 raise NotImplementedError(
                     f"Backend type {backend_type} is not implemented"

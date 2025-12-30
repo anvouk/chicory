@@ -14,16 +14,16 @@ This example demonstrates all major features of Chicory:
 
 Prerequisites:
 --------------
-1. Redis server running on localhost:6379
+1. Postgres database running on localhost:5432
 2. Install chicory: pip install chicory
 
 Usage:
 ------
 Terminal 1 - Start worker with DLQ enabled:
-    chicory worker examples.redis_example:app --dlq
+    chicory worker examples.postgres_example:app --dlq
 
 Terminal 2 - Run this example:
-    python examples/redis_example.py
+    python examples/postgres_example.py
 """
 
 import asyncio
@@ -55,7 +55,7 @@ logger = logging.getLogger(__name__)
 
 app = Chicory(
     broker=BrokerType.REDIS,
-    backend=BackendType.REDIS,
+    backend=BackendType.POSTGRES,
     validation_mode=ValidationMode.INPUTS,
 )
 
